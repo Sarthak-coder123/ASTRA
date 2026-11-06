@@ -1,0 +1,47 @@
+"""
+ASTRA - Advanced Survival and Threat Ranking Algorithm
+Experimental resilience risk scoring engine.
+"""
+
+def calculate_risk(probability, impact, exposure):
+    """
+    Calculate a normalized risk score.
+
+    Inputs: values from 1 to 10.
+    Output: score from 1 to 100.
+    """
+
+    values = [probability, impact, exposure]
+
+    if not all(1 <= value <= 10 for value in values):
+        raise ValueError("All inputs must be between 1 and 10")
+
+    score = 100 * (
+        (probability / 10) *
+        (impact / 10) *
+        (exposure / 10)
+    )
+
+    return round(score, 2)
+
+
+def classify_risk(score):
+    if score < 25:
+        return "LOW"
+    elif score < 50:
+        return "MODERATE"
+    elif score < 75:
+        return "HIGH"
+    else:
+        return "VERY HIGH"
+
+
+if __name__ == "__main__":
+    probability = 7
+    impact = 8
+    exposure = 6
+
+    score = calculate_risk(probability, impact, exposure)
+
+    print("ASTRA Risk Score:", score)
+    print("Risk Classification:", classify_risk(score))
